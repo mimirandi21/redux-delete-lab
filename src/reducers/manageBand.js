@@ -1,12 +1,25 @@
-export default function manageBand(state = {
-  bands: []
-}, action) {
-  switch (action.type) {
-    case 'ADD_BAND':
+import uuid from "uuid";
 
-      return { ...state, bands: [...state.bands, action.name] }
+export default function manageBand(
+	state = {
+		bands: [],
+	},
+	action
+) {
+	console.log(action);
+	switch (action.type) {
+		case "ADD_BAND":
+			const band = {
+				id: uuid(),
+				name: action.name,
+			};
+			return { bands: [...state.bands, band] };
 
-    default:
-      return state;
-  }
-};
+		case "DELETE_BAND":
+			const bands = state.bands.filter((band) => band.id !== action.id);
+			return { bands };
+
+		default:
+			return state;
+	}
+}
